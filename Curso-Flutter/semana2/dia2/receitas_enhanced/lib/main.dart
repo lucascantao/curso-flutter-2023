@@ -1,20 +1,75 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MainApp());
+  final Map<String, List<String>> dados = {
+    'Sobremesas': [
+      'Torta de Maçã',
+      'Mousse de Chocolate',
+      'Pudim de Leite Condensado'
+    ],
+    'Pratos Principais': [
+      'Frango assado com Batatas',
+      'Espaguete a Bolonhesa',
+      'Risoto de Cogumelos'
+    ],
+    'Aperitivos': [
+      'Bolinhos de Queijo',
+      'Bruschetta de Tomate e Majericão',
+      'Canapés de Salmão com Cream Cheese'
+    ]
+  };
+
+  runApp(MainApp(
+    dados: dados,
+    filtro: 1,
+  ));
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  Map<String, List<String>> dados;
+  int filtro;
+  MainApp(
+      {super.key,
+      required Map<String, List<String>> this.dados,
+      required this.filtro});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
+    return MaterialApp(
+        theme: ThemeData(
+          primaryColor: Colors.blue,
         ),
-      ),
-    );
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text("Minhas Receitas"),
+            centerTitle: true,
+          ),
+          body:  SizedBox(
+            height: MediaQuery.of(context).size.height * 0.8,
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: Expanded(
+              flex: 1,
+              child: Column(
+            children: dados.entries
+                .map((categoria) => Column(
+                      children: [
+                        Text(
+                          categoria.key,
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                        for (String value in categoria.value)
+                          Text(
+                            value,
+                            style: TextStyle(fontSize: 18),
+                          )
+                      ],
+                    ))
+                .toList(),
+          ),)
+            )
+          
+          
+        ));
   }
 }
