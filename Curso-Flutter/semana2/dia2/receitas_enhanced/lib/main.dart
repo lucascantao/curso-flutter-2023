@@ -30,7 +30,7 @@ class MainApp extends StatelessWidget {
   int filtro;
   MainApp(
       {super.key,
-      required Map<String, List<String>> this.dados,
+      required this.dados,
       required this.filtro});
 
   @override
@@ -41,35 +41,28 @@ class MainApp extends StatelessWidget {
         ),
         home: Scaffold(
           appBar: AppBar(
-            title: Text("Minhas Receitas"),
+            title: const Text("Minhas Receitas"),
             centerTitle: true,
           ),
-          body:  SizedBox(
-            height: MediaQuery.of(context).size.height * 0.8,
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: Expanded(
-              flex: 1,
-              child: Column(
+          body:  Column(
             children: dados.entries
                 .map((categoria) => Column(
                       children: [
                         Text(
                           categoria.key,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 24, fontWeight: FontWeight.bold),
                         ),
                         for (String value in categoria.value)
                           Text(
                             value,
-                            style: TextStyle(fontSize: 18),
+                            style: const TextStyle(fontSize: 18),
                           )
                       ],
                     ))
                 .toList(),
-          ),)
-            )
+          ),));
           
           
-        ));
   }
 }
