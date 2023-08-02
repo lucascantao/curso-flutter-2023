@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(MainApp());
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  MainApp({super.key});
+
+  final Map<String, List<String>> dados = {
+    'Sobremesas': [
+      'Torta de Maçã',
+      'Mousse de Chocolate',
+      'Pudim de Leite de Condensado'
+    ],
+    'Pratos Principais': ['Frango Assado com Batatas', 'Espaguete', 'Risoto'],
+    'Aperitivos': ['Bolinhos de Queijo', 'Bruschetta', 'Canapés']
+  };
+
+  final String? categoriaUsuario = null;
+  final String busca = '';
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBar(title: Text("Receitas")),
+          appBar: AppBar(title: const Text("Receitas")),
           body: Column(
-            children: [
-              Center(child: Text("Sobremesas", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
-              Text("Torta"),
-              Text("Mousse"),
-              Text("Pudim"),
-              Center(child: Text("Pratos Principais", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
-              Text("Frango Assado"),
-              Text("Espaguete"),
-              Text("Risoto"),
-              Center(child: Text("Aperitivos", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
-              Text("Bolinhos de Queijo"),
-              Text("Bruschetta"),
-              Text("Canapés"),
-            ],
+            children: [TextField()],
           )),
     );
   }
