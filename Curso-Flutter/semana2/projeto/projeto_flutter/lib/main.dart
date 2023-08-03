@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 void main() {
   runApp(MainApp());
@@ -25,8 +26,27 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(title: const Text("Receitas")),
-          body: Column(
-            children: [TextField()],
+          body: Center(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.8,
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: Column(
+                  children: dados.entries.map((categoria) {
+                return Container(
+                    margin: const EdgeInsets.all(10.0),
+                    color: Colors.amber,
+                    child: Column(
+                      children: [
+                        Text(categoria.key, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                        Row(
+                          children: categoria.value
+                              .map((prato) => Expanded(child: Text(prato)))
+                              .toList(),
+                        )
+                      ],
+                    ));
+              }).toList()),
+            ),
           )),
     );
   }
