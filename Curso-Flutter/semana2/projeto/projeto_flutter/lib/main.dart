@@ -1,78 +1,93 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 void main() {
-  runApp(MaterialApp(
-    home:Tela(),
-  ));
+  runApp(MainApp());
 }
 
-class Tela extends StatelessWidget {
-  @override
-  Widget build (BuildContext context){
-    return Scaffold(
-    body: Column(children: [ const Cabecalho(), const Corpo(), Contador(valorInicial: 3)]));
-  }
-}
+class MainApp extends StatelessWidget {
+  MainApp({super.key});
 
-class Cabecalho extends StatefulWidget {
-  const Cabecalho({super.key});
-  
-  @override
-  State<Cabecalho> createState() => _CabecalhoState();
-}
+  final Map<String, List<String>> dados = {
+    'Sobremesas': [
+      'Torta de Maçã',
+      'Mousse de Chocolate',
+      'Pudim de Leite de Condensado'
+    ],
+    'Pratos Principais': ['Frango Assado com Batatas', 'Espaguete', 'Risoto'],
+    'Aperitivos': ['Bolinhos de Queijo', 'Bruschetta', 'Canapés']
+  };
 
-class _CabecalhoState extends State<Cabecalho> {
+  final String? categoriaUsuario = null;
+  final String busca = '';
+
   @override
   Widget build(BuildContext context) {
-    return Text("Cabecalho");
-  }
-}
-
-class Corpo extends StatefulWidget {
-  final int valor = 10;
-  const Corpo({super.key});
-  
-  @override
-  State<Corpo> createState() => _CorpoState();
-  
-}
-
-class _CorpoState extends State<Corpo> {
-  @override
-  Widget build (BuildContext context){
-    return Text('valor ${widget.valor}');
-  }
-}
-
-class Contador extends StatefulWidget {
-  final int valorInicial;
-  Contador({super.key, required this.valorInicial});
-  
-  @override
-  State<Contador> createState() => _ContadorState();
-}
-
-class _ContadorState extends State<Contador> {
-  late int count = 0;
-  @override
-  void initState() {
-    super.initState();
-    count = widget.valorInicial;
-  }
-  @override
-  Widget build(BuildContext context){
-    return Column(
-      children: [
-        Text("$count"),
-        TextButton(
-          child: const Text('+'),
-          onPressed: () {
-            setState(() {
-              count += 1;
-            });
-          }
-        )
-      ]
+    return MaterialApp(
+      home: Scaffold(
+          appBar: AppBar(title: const Text("Receitas")),
+          body: Center(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.8,
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: Column(
+                  children: dados.entries.map((categoria) {
+                return Container(
+                    height: 150,
+                    margin: const EdgeInsets.all(10.0),
+                    color: const Color.fromARGB(255, 253, 245, 220),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                            flex: 1,
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: Text(categoria.key,
+                                  style: const TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold)),
+                            )),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: categoria.value
+                              .map((prato) => Flexible(
+                                  flex: 1,
+                                  child: Container(
+                                      margin: const EdgeInsets.all(5.0),
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                          color: Colors.red,
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
+                                      height: 75,
+                                      width: 100,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const Flexible(
+                                              flex: 1,
+                                              child: Icon(Icons.food_bank)),
+                                          Flexible(
+                                            flex: 1,
+                                            child: Text(
+                                              prato,
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          )
+                                        ],
+                                      ))))
+                              .toList(),
+                        )
+                      ],
+                    ));
+              }).toList()),
+            ),
+          )),
     );
   }
 }
