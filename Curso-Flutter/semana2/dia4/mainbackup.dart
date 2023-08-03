@@ -14,8 +14,8 @@ class MainApp extends StatelessWidget {
       'Mousse de Chocolate',
       'Pudim de Leite de Condensado'
     ],
-    'Pratos Principais': ['Frango Assado com Batatas', 'Espaguete', 'Risoto'],
-    'Aperitivos': ['Bolinhos de Queijo', 'Bruschetta', 'Canapés']
+    'Pratos Principais': ['Frango Assado com Batatas', 'Espaguete à Bolonhesa', 'Risoto de Cogumelos'],
+    'Aperitivos': ['Bolinhos de Queijo', 'Bruschetta de Tomate e Manjericão', 'Canapés de Salmão com Cream Cheese']
   };
 
   final String? categoriaUsuario = null;
