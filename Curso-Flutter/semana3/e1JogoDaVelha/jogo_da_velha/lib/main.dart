@@ -107,6 +107,7 @@ class JogoTela extends StatelessWidget {
   const JogoTela({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(), body: const Text("Jogo"));
+    return Scaffold(
+        appBar: AppBar(), body: const Center(child: Text("O Jogo")));
   }
 }
