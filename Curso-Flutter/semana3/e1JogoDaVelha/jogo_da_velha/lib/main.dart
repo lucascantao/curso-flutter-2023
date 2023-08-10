@@ -86,7 +86,10 @@ class BotaoJogar extends StatelessWidget {
       onTap: () {
         if (jogador1.isNotEmpty && jogador2.isNotEmpty) {
           Navigator.push(
-              context, MaterialPageRoute(builder: (_) => JogoTela()));
+              context,
+              MaterialPageRoute(
+                  builder: (_) =>
+                      TelaJogo(jogador1: jogador1, jogador2: jogador2)));
         } else {}
       },
       mouseCursor: SystemMouseCursors.click,
@@ -103,11 +106,136 @@ class BotaoJogar extends StatelessWidget {
   }
 }
 
-class JogoTela extends StatelessWidget {
-  const JogoTela({super.key});
+class TelaJogo extends StatefulWidget {
+  String jogador1;
+  String jogador2;
+  TelaJogo({super.key, required this.jogador1, required this.jogador2});
+
+  @override
+  State<TelaJogo> createState() => _TelaJogoState();
+}
+
+class _TelaJogoState extends State<TelaJogo> {
+  String jogador = 'x';
+  String jogadorAtual = '';
+  bool running = true;
+  List<Map<int, String>> tabuleiro = [
+    {1: '', 2: '', 3: ''},
+    {4: '', 5: '', 6: ''},
+    {7: '', 8: '', 9: ''}
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    jogadorAtual = widget.jogador1;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(), body: const Center(child: Text("O Jogo")));
+        appBar: AppBar(),
+        body: Center(
+            child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.8,
+                width: 200,
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(jogadorAtual),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: tabuleiro.map((row) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: row.entries.map((celula) {
+                            return InkWell(
+                              onTap: () {
+                                setState(() {
+                                  if (row[celula.key]!.isEmpty && running) {
+                                    row[celula.key] = jogador;
+                                    if (checarVitoria(
+                                        celula.key, jogador, tabuleiro)) {
+                                      running = false;
+                                      jogadorAtual = "$jogadorAtual VENCEU :0";
+                                    } else {
+                                      jogador = jogador == 'x' ? 'o' : 'x';
+                                      jogadorAtual =
+                                          jogadorAtual == widget.jogador1
+                                              ? widget.jogador2
+                                              : widget.jogador1;
+                                    }
+                                  }
+                                });
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                height: 50,
+                                width: 50,
+                                color: Colors.grey,
+                                child: Text(
+                                  celula.value,
+                                  style: const TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(height: 10),
+                    (running
+                        ? const Text("")
+                        : InkWell(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.all(10),
+                              color: Colors.green,
+                              child: const Text(
+                                "Reiniciar",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ))
+                  ],
+                ))));
   }
+}
+
+bool checarVitoria(int celula, String jogador, List<Map<int, String>> valores) {
+  List<List<int>> condicaoVitoria = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+    [1, 4, 7],
+    [2, 5, 8],
+    [3, 6, 9],
+    [1, 5, 9],
+    [3, 5, 7]
+  ];
+  int match = 0;
+  for (List<int> condicao in condicaoVitoria) {
+    match = 0;
+    if (condicao.contains(celula)) {
+      for (int elemento in condicao) {
+        for (Map<int, String> row in valores) {
+          row.forEach((key, value) {
+            if (key == elemento && value == jogador) match++;
+          });
+        }
+        if (match >= 3) return true;
+      }
+    }
+  }
+  return false;
 }
