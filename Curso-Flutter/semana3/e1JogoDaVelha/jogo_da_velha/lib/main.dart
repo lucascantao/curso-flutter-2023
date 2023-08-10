@@ -159,7 +159,10 @@ class _TelaJogoState extends State<TelaJogo> {
                                 setState(() {
                                   if (row[celula.key]!.isEmpty && running) {
                                     row[celula.key] = jogador;
-                                    if (checarVitoria(
+                                    if (checarFimDeJogo(tabuleiro)) {
+                                      running = false;
+                                      jogadorAtual = "FIM DE JOGO";
+                                    } else if (checarVitoria(
                                         celula.key, jogador, tabuleiro)) {
                                       running = false;
                                       jogadorAtual = "$jogadorAtual VENCEU :0";
@@ -210,6 +213,17 @@ class _TelaJogoState extends State<TelaJogo> {
                   ],
                 ))));
   }
+}
+
+bool checarFimDeJogo(List<Map<int, String>> valores) {
+  for (var element in valores) {
+    for (var value in element.values) {
+      if (value.isEmpty) return false;
+    }
+    ;
+  }
+
+  return true;
 }
 
 bool checarVitoria(int celula, String jogador, List<Map<int, String>> valores) {
