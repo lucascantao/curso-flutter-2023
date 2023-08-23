@@ -80,14 +80,11 @@ class TelaB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Tela B"),
-      ),
-      body: Center(
-        child: TextButton(
-            onPressed: () => GoRouter.of(context).,
-            child: const Text("Go to Tela A")),
-      ),
-    );
+        appBar: AppBar(
+          title: const Text("Tela B"),
+        ),
+        body: const Center(
+          child: Text("Go to Tela A"),
+        ));
   }
 }
