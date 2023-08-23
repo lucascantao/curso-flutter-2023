@@ -17,17 +17,27 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ScrollController scrollController = ScrollController();
-    const List<Widget> sections = [
-      Resume(),
-      DoneProjects(),
-      SkillKnowledge(),
-      About(),
+
+    GlobalKey keySection1 = GlobalKey();
+    GlobalKey keySection2 = GlobalKey();
+    GlobalKey keySection3 = GlobalKey();
+    GlobalKey keySection4 = GlobalKey();
+
+    List<Widget> sections = [
+      Resume(
+        key: keySection1,
+      ),
+      DoneProjects(
+        key: keySection2,
+      ),
+      SkillKnowledge(
+        key: keySection3,
+      ),
+      About(
+        key: keySection4,
+      ),
       Footer()
     ];
-    // GlobalKey keySection1 = GlobalKey();
-    // GlobalKey keySection2 = GlobalKey();
-    // GlobalKey keySection3 = GlobalKey();
-    // GlobalKey keySection4 = GlobalKey();
     return MaterialApp(
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
@@ -85,8 +95,57 @@ class MainApp extends StatelessWidget {
           physics: const BouncingScrollPhysics(),
           controller: scrollController,
           slivers: <Widget>[
-            const SliverAppBar(
-              title: Text("Portfolio"),
+            SliverAppBar(
+              floating: true,
+              snap: false,
+              pinned: false,
+              title: const Text("Portfolio"),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextButton(
+                    onPressed: () async {
+                      await Scrollable.ensureVisible(
+                          keySection1.currentContext!,
+                          duration: const Duration(milliseconds: 600));
+                    },
+                    child: const Text("Resume"),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextButton(
+                    onPressed: () async {
+                      await Scrollable.ensureVisible(
+                          keySection2.currentContext!,
+                          duration: const Duration(milliseconds: 600));
+                    },
+                    child: const Text("Done Projects"),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextButton(
+                    onPressed: () async {
+                      await Scrollable.ensureVisible(
+                          keySection3.currentContext!,
+                          duration: const Duration(milliseconds: 600));
+                    },
+                    child: const Text("Skill"),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextButton(
+                    onPressed: () async {
+                      await Scrollable.ensureVisible(
+                          keySection4.currentContext!,
+                          duration: const Duration(milliseconds: 600));
+                    },
+                    child: const Text("About"),
+                  ),
+                ),
+              ],
             ),
             SliverList(
                 delegate: SliverChildBuilderDelegate(
